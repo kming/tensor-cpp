@@ -10,8 +10,12 @@ project(
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Third Party Package
+find_package (glog 0.6.0 REQUIRED)
+INCLUDE_DIRECTORIES(${GLOG_INCLUDE_DIR})
+
 # subdirectory
 add_subdirectory(libs)
 add_subdirectory(test)
 
-target_link_libraries(test PRIVATE tensor tensor-ops)
+target_link_libraries(test PRIVATE tensor tensor-ops glog::glog)
