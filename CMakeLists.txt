@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1...3.26)
 
 # set the project name and version
 project(
-    tensor-cpp 
+    tensor-cpp
     VERSION 1.0
     LANGUAGES CXX)
 
