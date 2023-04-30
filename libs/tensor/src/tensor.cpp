@@ -2,6 +2,4 @@
 
 #include <iostream>
 
-namespace tensor {
-Tensor::Tensor();
-}  // namespace tensor
+namespace tensor {}  // namespace tensor
