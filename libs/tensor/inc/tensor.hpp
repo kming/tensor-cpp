@@ -3,7 +3,7 @@
 #include <vector>
 
 namespace tensor {
-template <typename DataType>
+using DataType = float;
 class Tensor {
  public:
   struct Index {
@@ -13,17 +13,25 @@ class Tensor {
     unsigned int w = 0;
   };
   struct Shape : Index {
-    unsigned int volume() { return this->w * this->z * this->r * this->c; }
+    unsigned int volume() const { return this->w * this->z * this->r * this->c; }
   };
-  struct Stride : Index {};
+  struct Stride : Index {
+    unsigned int at(const Index& index) {
+      return this->w * index.w + this->z * index.z + this->r * index.r + this->c * index.c;
+    }
+  };
 
-  Tensor();
-  Tensor(const Tensor::Shape& shape);
+  Tensor(){};
+  Tensor(const Tensor::Shape& shape, const Tensor::Stride& stride)
+      : __shape(shape), __stride(stride), __data(std::vector<DataType>(shape.volume(), 0.0f)){};
 
-  ~Tensor();
+  ~Tensor(){};
 
   const Tensor::Shape& get_shape() const;
   void set_shape(const Tensor::Shape& shape);
+
+  const Tensor::Stride& get_stride() const;
+  void set_stride(const Tensor::Stride& stride);
 
   DataType& operator[](const Tensor::Index& index);
 
@@ -31,8 +39,8 @@ class Tensor {
   typename std::vector<DataType>::iterator end();
 
  private:
-  std::vector<DataType> __data = {};
-  Tensor::Stride __stride = {};
   Tensor::Shape __shape = {};
+  Tensor::Stride __stride = {};
+  std::vector<DataType> __data = {};
 };
 }  // namespace tensor
